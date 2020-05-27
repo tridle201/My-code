@@ -1,0 +1,150 @@
+function onLoad()
+    self.createButton({
+        click_function = 'doAll',
+        function_owner = self,
+        label          = 'Deal',
+        position       = {0, 0.1, -1},
+        rotation       = {0, 180, 0},
+        width          = 800,
+        height         = 400,
+    })
+    deckGUID = 'd2f4c0'
+end
+
+function onObjectEnterScriptingZone(zone, obj) --update deck GUID as needed
+    deckGUID = obj.getGUID()
+end
+
+function doAll()
+    removeCards()
+    dealCards()
+end
+
+function removeCards()
+    pulledCard = {0,0}
+    n = 0
+
+    while n < 3 do    -- get three cards set asside
+        seed = os.clock()
+        math.randomseed(seed)
+        randNum = math.random(1,78); --get new card number
+
+        if pulledCard[1] == randNum then -- check if first card pulled == new card to be pulled
+            sleep(0.1)
+        elseif pulledCard[2] == randNum then -- check if second card pulled == new card to be pulled
+            sleep(0.1)
+        else
+            n = n + 1
+            pulledCard[n] = randNum -- update table of cards removed from deck
+            cardGUID = tableReference(randNum) -- return card unique ID from number
+            
+            takeParams = {
+                position = {x=0.5, y=3, z=-1}, --move pulled card center of table
+                guid = cardGUID, --identify card in deck
+            }
+            getObjectFromGUID(deckGUID).takeObject(takeParams) --take card out of deck
+        end
+    end
+end
+
+function dealCards()
+    cardsInHand = 0
+    while cardsInHand < 15 do
+        getObjectFromGUID(deckGUID).deal(3,'Yellow')
+        getObjectFromGUID(deckGUID).deal(3,'Orange')
+        getObjectFromGUID(deckGUID).deal(3,'White')
+        getObjectFromGUID(deckGUID).deal(3,'Purple')
+        getObjectFromGUID(deckGUID).deal(3,'Blue')
+        cardsInHand = cardsInHand + 3
+    end
+end
+
+function sleep(n)
+    local t = os.clock()
+    while os.clock() - t <= n do
+        --nothing
+    end
+end
+
+function tableReference(x)
+    a={}
+    a[1]='e020d2'
+    a[2]='0d66ca'
+    a[3]='3e34ae'
+    a[4]='5b5983'
+    a[5]='981403'
+    a[6]='dfc971'
+    a[7]='f68151'
+    a[8]='ce4cf3'
+    a[9]='cf5ce0'
+    a[10]='ebb68f'
+    a[11]='362e58'
+    a[12]='5b923c'
+    a[13]='f88f2a'
+    a[14]='6ead91'
+    a[15]='b9078e'
+    a[16]='95b1b5'
+    a[17]='1804bd'
+    a[18]='20fd10'
+    a[19]='ff71e7'
+    a[20]='03d725'
+    a[21]='3dc1b3'
+    a[22]='76b5d2'
+    a[23]='b4a2d6'
+    a[24]='676cc7'
+    a[25]='19597c'
+    a[26]='dbe4f6'
+    a[27]='88c456'
+    a[28]='58d959'
+    a[29]='3e11b3'
+    a[30]='941a17'
+    a[31]='52b3a3'
+    a[32]='6e3d73'
+    a[33]='cd7be6'
+    a[34]='7daabb'
+    a[35]='a9e538'
+    a[36]='f756b6'
+    a[37]='9787be'
+    a[38]='d9f9f4'
+    a[39]='319153'
+    a[40]='6674c1'
+    a[41]='05b18a'
+    a[42]='069025'
+    a[43]='8960a4'
+    a[44]='e8f23c'
+    a[45]='a21bff'
+    a[46]='d5f255'
+    a[47]='803f5a'
+    a[48]='c7ea60'
+    a[49]='1b61f2'
+    a[50]='5a381b'
+    a[51]='9f412d'
+    a[52]='4224a6'
+    a[53]='64ea2b'
+    a[54]='48f57f'
+    a[55]='5e1473'
+    a[56]='3e0d0d'
+    a[57]='851bee'
+    a[58]='537b23'
+    a[59]='f3a203'
+    a[60]='3faadb'
+    a[61]='0306de'
+    a[62]='34cb26'
+    a[63]='50d449'
+    a[64]='23a877'
+    a[65]='38b7b5'
+    a[66]='b9d9ed'
+    a[67]='29fb7a'
+    a[68]='d1cb94'
+    a[69]='e98feb'
+    a[70]='647694'
+    a[71]='9a50fb'
+    a[72]='d88ef6'
+    a[73]='71f986'
+    a[74]='518ddb'
+    a[75]='aa795d'
+    a[76]='680372'
+    a[77]='8d9904'
+    a[78]='73fb49'
+    return a[x]
+end
